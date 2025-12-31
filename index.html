@@ -9,6 +9,7 @@
         :root {
             --maroon: #800000;
             --dark-pink: #e75480;
+            --soft-pink: #ffc0cb;
             --envelope-bg: #f8adbc;
             --card-bg: rgba(255, 255, 255, 0.95);
         }
@@ -16,93 +17,111 @@
         body, html {
             margin: 0; padding: 0; height: 100%;
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to bottom, #ff9a9e, #fad0c4);
+            transition: background 5s ease-in-out;
             overflow: hidden;
         }
+
+        .morning { background: linear-gradient(to bottom, #ff9a9e, #fad0c4); }
+        .afternoon { background: linear-gradient(to bottom, #87ceeb, #e0f7fa); }
+        .evening { background: linear-gradient(to bottom, #f093fb, #f5576c); }
+        .night { background: linear-gradient(to bottom, #2c3e50, #000000); color: white; }
 
         .heart {
             position: absolute; bottom: -100px;
             color: rgba(231, 84, 128, 0.4); font-size: 20px;
             z-index: 0; animation: moveUp 6s linear infinite;
         }
+
         @keyframes moveUp {
             0% { transform: translateY(0) rotate(0deg); opacity: 1; }
             100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
         }
 
         .container {
-            display: flex; align-items: center; justify-content: center;
-            height: 100vh; padding: 20px; position: relative; z-index: 10;
+            display: flex; flex-direction: column; align-items: center;
+            justify-content: center; height: 100vh; padding: 20px;
+            position: relative; z-index: 10; box-sizing: border-box;
         }
 
-        /* FIXED: Grid layout to prevent overlap */
+        /* FIXED: Ensuring content is spaced out and centered */
         .text-card {
-            background: var(--card-bg); padding: 25px; border-radius: 25px;
+            background: var(--card-bg); padding: 30px; border-radius: 25px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            max-width: 450px; width: 95%; 
-            display: grid;
-            grid-template-rows: auto auto auto;
-            gap: 10px;
-            border: 2px solid rgba(255, 182, 193, 0.6);
-            backdrop-filter: blur(10px); color: #222; text-align: center;
+            max-width: 500px; width: 95%; min-height: 380px;
+            max-height: 85vh; overflow-y: auto; border: 2px solid rgba(255, 182, 193, 0.6);
+            backdrop-filter: blur(10px); color: #222; 
+            display: flex; flex-direction: column; 
+            align-items: center; justify-content: space-between; 
+            text-align: center;
         }
 
         .hidden { display: none !important; }
 
-        h2, .typewriter {
+        h1, h2, .typewriter {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.6rem; margin: 0; font-weight: 700;
-            line-height: 1.4;
+            font-size: 1.8rem; margin: 0; font-weight: 700;
         }
 
         button {
             background-color: var(--maroon); color: white; border: none;
-            padding: 12px 25px; border-radius: 35px; cursor: pointer;
-            font-size: 0.95rem; font-weight: bold; margin: 5px;
-            justify-self: center;
+            padding: 14px 30px; border-radius: 35px; cursor: pointer;
+            font-size: 1rem; margin: 15px 5px 0 5px; font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.2s;
         }
 
-        .reveal-img {
-            max-width: 150px; border-radius: 15px; margin: 10px auto;
-            display: block; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
+        /* FIXED ENVELOPE POSITIONING */
         .envelope-wrapper {
-            position: relative; width: 120px; height: 75px;
+            position: relative;
+            width: 140px; height: 90px;
             background-color: var(--envelope-bg);
             border-radius: 0 0 10px 10px; cursor: pointer;
-            margin: 30px auto 10px auto; 
+            margin-top: 40px; /* Space from top text */
+            flex-shrink: 0;
         }
+
         .envelope-wrapper::before {
-            content: ''; position: absolute; top: -60px; left: 0;
-            width: 0; height: 0; border-left: 60px solid transparent;
-            border-right: 60px solid transparent; border-bottom: 60px solid var(--envelope-bg);
+            content: ''; position: absolute; top: -70px; left: 0;
+            width: 0; height: 0; border-left: 70px solid transparent;
+            border-right: 70px solid transparent; border-bottom: 70px solid var(--envelope-bg);
         }
+
         .heart-seal {
             position: absolute; top: 0; left: 50%;
-            transform: translate(-50%, -50%); font-size: 30px; z-index: 3;
+            transform: translate(-50%, -50%); font-size: 35px; z-index: 3;
             animation: pulse 1.5s infinite;
         }
+
         @keyframes pulse {
             0% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.1); }
+            50% { transform: translate(-50%, -50%) scale(1.15); }
             100% { transform: translate(-50%, -50%) scale(1); }
         }
 
-        .progress-box { width: 100%; background: #fff; border: 1.5px solid var(--maroon); border-radius: 20px; overflow: hidden; margin: 15px 0; }
-        .bar { width: 0%; height: 20px; background: linear-gradient(to right, var(--dark-pink), var(--maroon)); transition: width 0.1s linear; }
+        .progress-box { width: 100%; background: #fff; border: 1.5px solid var(--maroon); border-radius: 20px; overflow: hidden; margin: 20px 0; }
+        .bar { width: 0%; height: 28px; background: linear-gradient(to right, var(--dark-pink), var(--maroon)); transition: width 0.1s linear; }
+        .breaking-bar { animation: glitch 0.15s infinite; filter: drop-shadow(0 0 8px red); }
+        
+        .typewriter { line-height: 1.5; white-space: pre-wrap; width: 100%; text-align: left; font-family: 'Poppins', sans-serif; font-size: 1.05rem; }
+        
+        .reveal-img {
+            max-width: 200px; border-radius: 15px; margin: 15px auto;
+            display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
-<body>
+<body class="morning">
 
     <audio id="music1" src="song1.mp3"></audio>
     <audio id="music2" src="song2.mp3"></audio>
     <audio id="music3" src="song3.mp3"></audio>
+    <audio id="break-sound" src="break.mp3"></audio>
 
     <div id="page1" class="container">
         <div class="text-card">
-            <h2>Hey Avinya,</h2>
-            <p>I have a letter for you. Please click the heart to open it.</p>
+            <div>
+                <h2>Hey Avinya,</h2>
+                <p>I have a letter for you. Please click the heart to open it.</p>
+            </div>
             <div class="envelope-wrapper" onclick="goToPage(2)">
                 <div class="heart-seal">❤️</div>
             </div>
@@ -111,74 +130,82 @@
 
     <div id="page2" class="container hidden">
         <div class="text-card">
-            <h2 id="ques">Do you love me?</h2>
+            <h1 id="ques">Do you love me?</h1>
             <div id="btn-group">
                 <button onclick="handleResponse(true)">Yes</button>
                 <button onclick="handleResponse(false)">No</button>
             </div>
             <div id="answer-reveal" class="hidden">
+                <h2 id="answer-text"></h2>
                 <div id="answer-media"></div>
-                <p id="answer-text" class="typewriter"></p>
-                <div id="response-btns">
-                    <button id="ans-btn" class="hidden" onclick="goToPage(3)">Continue</button>
-                    <button id="retry-btn" class="hidden" onclick="resetLovePage()">Retry</button>
-                </div>
+                <div id="post-answer-btns"></div>
             </div>
         </div>
     </div>
 
     <div id="page3" class="container hidden">
         <div id="env-l1" class="text-card" style="cursor:pointer;" onclick="startLetter1()">
-            <h2 style="color:var(--maroon)">Things I want to say...</h2>
-            <div class="envelope-wrapper"><div class="heart-seal">✉️</div></div>
+            <h2 style="color:var(--maroon)">Things I want to say to you</h2>
+            <div class="envelope-wrapper">
+                <div class="heart-seal">✉️</div>
+            </div>
         </div>
         <div id="l1-content" class="text-card hidden">
-            <p id="l1-text" class="typewriter" style="text-align: left;"></p>
-            <button id="l1-btn" class="hidden" onclick="cycleL1()">Continue</button>
+            <p id="l1-text" class="typewriter"></p>
+            <div id="l1-btn-container" style="min-height: 50px;">
+                <button id="l1-btn" class="hidden" onclick="cycleL1()">Continue</button>
+            </div>
         </div>
     </div>
 
     <div id="page4" class="container hidden">
         <div id="env-l2" class="text-card" style="cursor:pointer;" onclick="startLetter2()">
-            <h2 style="color:var(--maroon)">Things I've kept hidden...</h2>
-            <div class="envelope-wrapper"><div class="heart-seal">✉️</div></div>
+            <h2 style="color:var(--maroon)">Things I've kept hidden in me for so many days</h2>
+            <div class="envelope-wrapper">
+                <div class="heart-seal">✉️</div>
+            </div>
         </div>
         <div id="l2-content" class="text-card hidden">
-            <p id="l2-text" class="typewriter" style="text-align: left;"></p>
-            <button id="l2-btn" class="hidden" onclick="cycleL2()">Continue</button>
+            <p id="l2-text" class="typewriter"></p>
+            <div id="l2-btn-container" style="min-height: 50px;">
+                <button id="l2-btn" class="hidden" onclick="cycleL2()">Continue</button>
+            </div>
         </div>
     </div>
 
     <div id="page5" class="container hidden">
         <div class="text-card">
-            <h2>One last thing...</h2>
-            <button onclick="goToPage(6)">Check My Love 💖</button>
+            <div>
+                <h2>Wait... one last thing.</h2>
+                <h1 style="color:var(--maroon)">Do you want to check how much I love you?</h1>
+            </div>
+            <button onclick="goToPage(6)">Check Now 💖</button>
         </div>
     </div>
 
     <div id="page6" class="container hidden">
         <div class="text-card">
-            <div id="meter-box">
-                <h2>Calculating...</h2>
-                <div class="progress-box"><div id="fill" class="bar"></div></div>
-                <h2 id="percent">0%</h2>
-            </div>
-            <p id="meter-reveal-text" class="typewriter" style="color:maroon; font-weight:bold;"></p>
+            <h2>Calculating my love...</h2>
+            <div class="progress-box"><div id="fill" class="bar"></div></div>
+            <h2 id="percent">0%</h2>
             <button id="end-btn" class="hidden" onclick="goToPage(7)">Continue</button>
         </div>
     </div>
 
     <div id="page7" class="container hidden">
         <div class="text-card">
-            <p id="friend-msg" class="typewriter"></p>
+            <h2 id="friend-msg" class="typewriter"></h2>
             <button id="friend-btn" class="hidden" onclick="goToPage(8)">Continue</button>
         </div>
     </div>
 
     <div id="page8" class="container hidden">
         <div class="text-card">
-            <h2 style="color:var(--maroon)">I Love You Avinya 💗</h2>
-            <p>~Dark</p>
+            <div>
+                <h1>Thank You For Your Time <3</h1>
+                <h1 style="color:var(--maroon)">I Love You Avinya 💗</h1>
+                <p>~Dark</p>
+            </div>
             <button onclick="location.reload()">Back to Start</button>
         </div>
     </div>
@@ -189,6 +216,7 @@
             heart.classList.add('heart');
             heart.innerHTML = '💗';
             heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 6000);
         }
@@ -197,26 +225,24 @@
         function goToPage(num) {
             document.querySelectorAll('.container').forEach(c => c.classList.add('hidden'));
             document.getElementById('page' + num).classList.remove('hidden');
-            if (num === 7) typeWriter('friend-msg', "I hope this doesn't break our friendship 🙃", 'friend-btn');
+            if (num === 7) typeWriter('friend-msg', "I hope this letter doesn't break our friendship 🙃", 'friend-btn');
             if (num === 6) startLoveMeter();
         }
 
         function handleResponse(isYes) {
             document.getElementById('btn-group').classList.add('hidden');
             document.getElementById('ques').classList.add('hidden');
-            const reveal = document.getElementById('answer-reveal');
+            document.getElementById('answer-reveal').classList.remove('hidden');
             const media = document.getElementById('answer-media');
-            reveal.classList.remove('hidden');
-            
-            document.getElementById('ans-btn').classList.add('hidden');
-            document.getElementById('retry-btn').classList.add('hidden');
-
+            const btns = document.getElementById('post-answer-btns');
             if(isYes) {
+                document.getElementById('answer-text').innerText = "Yay Thank Youu!🥰";
                 media.innerHTML = `<img src="yes-img.jpg" class="reveal-img">`;
-                typeWriter('answer-text', "Yay Thank Youu! 🥰", 'ans-btn');
+                btns.innerHTML = `<button onclick="goToPage(3)">Continue</button>`;
             } else {
+                document.getElementById('answer-text').innerText = "How dare you!!😤";
                 media.innerHTML = `<img src="no-cat.jpg" class="reveal-img">`;
-                typeWriter('answer-text', "How dare you say no! 😤 Choose again!", 'retry-btn');
+                btns.innerHTML = `<button onclick="resetLovePage()">Retry</button>`;
             }
         }
 
@@ -224,40 +250,43 @@
             document.getElementById('answer-reveal').classList.add('hidden');
             document.getElementById('btn-group').classList.remove('hidden');
             document.getElementById('ques').classList.remove('hidden');
-            document.getElementById('retry-btn').classList.add('hidden');
-            document.getElementById('answer-media').innerHTML = '';
         }
 
+        // IMPROVED TYPEWRITER: Button strictly hidden until finish
         function typeWriter(elementId, text, btnId) {
             const element = document.getElementById(elementId);
             const btn = document.getElementById(btnId);
+            btn.classList.add('hidden'); 
             element.innerText = '';
             let i = 0;
+            const speed = 55; 
             function type() {
                 if (i < text.length) {
                     element.innerText += text.charAt(i);
                     i++;
-                    setTimeout(type, 50);
+                    setTimeout(type, speed);
                 } else {
-                    btn.classList.remove('hidden');
+                    btn.classList.remove('hidden'); // ONLY shows when i hits text.length
                 }
             }
             type();
         }
 
-        // Letter Cycles
         let l1Idx = 0;
         const l1Notes = [
-            "In a sky crowded with stars, you are the only moon I see.",
-            "Among billions of faces, it is only your eyes I search for.",
-            "Please allow me to love you aloud. Even if only once."
+            "I know we will never be together, but please allow me to tell you how, in a sky crowded with stars, you are the only moon I see.",
+            "How among billions of faces in this world, it is only your eyes I ever search for.",
+            "Let me tell you, how you are the fire I would reach for without fear of being burned, the warmth I would choose even knowing the cost.",
+            "I know we will never be together, but please allow me to love you aloud. Even if only once."
         ];
+
         function startLetter1() {
             document.getElementById('env-l1').classList.add('hidden');
             document.getElementById('l1-content').classList.remove('hidden');
             document.getElementById('music1').play();
             cycleL1();
         }
+
         function cycleL1() {
             if(l1Idx < l1Notes.length) {
                 typeWriter('l1-text', l1Notes[l1Idx], 'l1-btn');
@@ -270,16 +299,23 @@
 
         let l2Idx = 0;
         const l2Notes = [
-            "I still remember how we met—fighting on the first day in that GC.",
-            "Getting an apology from you is my favorite mission.",
-            "I want to spend 2026 with you... as something more."
+            "I still remember how we met—arguing and fighting on the very first day in that GC.\n\nFunny how from that chaos, you became the calm I never knew I needed.",
+            "Even now, we fight over the silliest things, and honestly… that’s my favorite part of us.",
+            "Getting an apology from you has somehow become my favorite little mission, because it reminds me how real, honest, and us we are.",
+            "I love the way you are—the way you react, the way you speak your heart out, and especially the way you express even the smallest emotions so beautifully.",
+            "Every time you do that, my heart melts… and I find myself falling for you all over again.",
+            "A day without you doesn’t just feel empty—it feels like I’ve spent a whole day in hell, missing your presence, your words, you.",
+            "Somewhere between those fights, laughs, apologies, and endless conversations, you became more than my best friend. You became the person my heart looks for—every single day.",
+            "And as this year moves forward, there’s one thing I’m sure about—\n\nI want to spend my 2026 with you, creating new memories, sharing new laughs, fighting over silly things, making up again, and growing together.\n\nNot just as best friends… but as something more."
         ];
+
         function startLetter2() {
             document.getElementById('env-l2').classList.add('hidden');
             document.getElementById('l2-content').classList.remove('hidden');
             document.getElementById('music2').play();
             cycleL2();
         }
+
         function cycleL2() {
             if(l2Idx < l2Notes.length) {
                 typeWriter('l2-text', l2Notes[l2Idx], 'l2-btn');
@@ -295,18 +331,22 @@
             let w = 0;
             const fill = document.getElementById('fill');
             const pct = document.getElementById('percent');
+            const breakSound = document.getElementById('break-sound');
             const interval = setInterval(() => {
                 w++;
-                fill.style.width = w + '%';
+                fill.style.width = Math.min(w, 100) + '%';
                 pct.innerText = w + '%';
                 if(w >= 100) {
                     clearInterval(interval);
                     setTimeout(() => {
-                        document.getElementById('meter-box').classList.add('hidden');
-                        typeWriter('meter-reveal-text', "My love for you cannot be measured 😭🎀", 'end-btn');
-                    }, 500);
+                        if(breakSound) breakSound.play();
+                        fill.classList.add('breaking-bar');
+                        fill.style.width = "200%"; 
+                        pct.innerHTML = "<span style='color:maroon; font-weight:bold;'>Sorry beautiful, but my love for you cannot be measured 😭🎀</span>";
+                        document.getElementById('end-btn').classList.remove('hidden');
+                    }, 600);
                 }
-            }, 50);
+            }, 45);
         }
     </script>
 </body>
