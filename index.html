@@ -41,7 +41,7 @@
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
             max-width: 450px; width: 95%; 
             display: grid;
-            grid-template-rows: auto auto auto; /* Row for Text, Image, and Button */
+            grid-template-rows: auto auto auto;
             gap: 10px;
             border: 2px solid rgba(255, 182, 193, 0.6);
             backdrop-filter: blur(10px); color: #222; text-align: center;
@@ -122,8 +122,10 @@
             <div id="answer-reveal" class="hidden">
                 <div id="answer-media"></div>
                 <p id="answer-text" class="typewriter"></p>
-                <button id="ans-btn" class="hidden" onclick="goToPage(3)">Continue</button>
-                <button id="retry-btn" class="hidden" onclick="resetLovePage()">Retry</button>
+                <div id="response-btns">
+                    <button id="ans-btn" class="hidden" onclick="goToPage(3)">Continue</button>
+                    <button id="retry-btn" class="hidden" onclick="resetLovePage()">Retry</button>
+                </div>
             </div>
         </div>
     </div>
@@ -209,6 +211,10 @@
             const media = document.getElementById('answer-media');
             reveal.classList.remove('hidden');
             
+            // Hide both buttons initially
+            document.getElementById('ans-btn').classList.add('hidden');
+            document.getElementById('retry-btn').classList.add('hidden');
+
             if(isYes) {
                 media.innerHTML = `<img src="yes-cat.jpg" class="reveal-img">`;
                 typeWriter('answer-text', "Yay Thank Youu! 🥰", 'ans-btn');
@@ -223,12 +229,12 @@
             document.getElementById('btn-group').classList.remove('hidden');
             document.getElementById('ques').classList.remove('hidden');
             document.getElementById('retry-btn').classList.add('hidden');
+            document.getElementById('answer-media').innerHTML = '';
         }
 
         function typeWriter(elementId, text, btnId) {
             const element = document.getElementById(elementId);
             const btn = document.getElementById(btnId);
-            btn.classList.add('hidden'); 
             element.innerText = '';
             let i = 0;
             function type() {
@@ -237,26 +243,25 @@
                     i++;
                     setTimeout(type, 50);
                 } else {
-                    btn.classList.remove('hidden');
+                    btn.classList.remove('hidden'); // This will now correctly show the specific button passed (ans-btn or retry-btn)
                 }
             }
             type();
         }
 
+        // Letter 1 Logic
         let l1Idx = 0;
         const l1Notes = [
             "In a sky crowded with stars, you are the only moon I see.",
             "Among billions of faces, it is only your eyes I search for.",
             "I know we will never be together, but please allow me to love you aloud."
         ];
-
         function startLetter1() {
             document.getElementById('env-l1').classList.add('hidden');
             document.getElementById('l1-content').classList.remove('hidden');
             document.getElementById('music1').play();
             cycleL1();
         }
-
         function cycleL1() {
             if(l1Idx < l1Notes.length) {
                 typeWriter('l1-text', l1Notes[l1Idx], 'l1-btn');
@@ -267,20 +272,19 @@
             }
         }
 
+        // Letter 2 Logic
         let l2Idx = 0;
         const l2Notes = [
             "I still remember our first fight... you became the calm I needed.",
             "I love the way you react and speak your heart out.",
             "I want to spend my 2026 with you. Not just as best friends… but as something more."
         ];
-
         function startLetter2() {
             document.getElementById('env-l2').classList.add('hidden');
             document.getElementById('l2-content').classList.remove('hidden');
             document.getElementById('music2').play();
             cycleL2();
         }
-
         function cycleL2() {
             if(l2Idx < l2Notes.length) {
                 typeWriter('l2-text', l2Notes[l2Idx], 'l2-btn');
