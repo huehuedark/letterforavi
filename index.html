@@ -43,69 +43,71 @@
             position: relative; z-index: 10; box-sizing: border-box;
         }
 
-        /* FIXED: Ensuring content is spaced out and centered */
+        /* ELASTIC CARD: Strictly grows with content, no extra gaps */
         .text-card {
-            background: var(--card-bg); padding: 30px; border-radius: 25px;
+            background: var(--card-bg); padding: 25px; border-radius: 25px;
             box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-            max-width: 500px; width: 95%; min-height: 380px;
-            max-height: 85vh; overflow-y: auto; border: 2px solid rgba(255, 182, 193, 0.6);
+            max-width: 450px; width: 90%; 
+            height: auto; /* Hug content */
+            display: block; /* Remove flex-justify to stop spacing things out */
+            border: 2px solid rgba(255, 182, 193, 0.6);
             backdrop-filter: blur(10px); color: #222; 
-            display: flex; flex-direction: column; 
-            align-items: center; justify-content: space-between; 
             text-align: center;
+            transition: height 0.3s ease;
         }
 
         .hidden { display: none !important; }
 
         h1, h2, .typewriter {
             font-family: 'Dancing Script', cursive;
-            font-size: 1.8rem; margin: 0; font-weight: 700;
+            font-size: 1.7rem; margin: 0 0 10px 0; font-weight: 700;
         }
 
         button {
             background-color: var(--maroon); color: white; border: none;
-            padding: 14px 30px; border-radius: 35px; cursor: pointer;
-            font-size: 1rem; margin: 15px 5px 0 5px; font-weight: bold;
+            padding: 12px 25px; border-radius: 35px; cursor: pointer;
+            font-size: 0.95rem; margin-top: 15px; font-weight: bold;
             box-shadow: 0 4px 10px rgba(0,0,0,0.2); transition: 0.2s;
         }
 
-        /* FIXED ENVELOPE POSITIONING */
         .envelope-wrapper {
             position: relative;
-            width: 140px; height: 90px;
+            width: 120px; height: 80px;
             background-color: var(--envelope-bg);
             border-radius: 0 0 10px 10px; cursor: pointer;
-            margin-top: 40px; /* Space from top text */
-            flex-shrink: 0;
+            margin: 40px auto 10px auto; 
         }
 
         .envelope-wrapper::before {
-            content: ''; position: absolute; top: -70px; left: 0;
-            width: 0; height: 0; border-left: 70px solid transparent;
-            border-right: 70px solid transparent; border-bottom: 70px solid var(--envelope-bg);
+            content: ''; position: absolute; top: -60px; left: 0;
+            width: 0; height: 0; border-left: 60px solid transparent;
+            border-right: 60px solid transparent; border-bottom: 60px solid var(--envelope-bg);
         }
 
         .heart-seal {
             position: absolute; top: 0; left: 50%;
-            transform: translate(-50%, -50%); font-size: 35px; z-index: 3;
+            transform: translate(-50%, -50%); font-size: 30px; z-index: 3;
             animation: pulse 1.5s infinite;
         }
 
         @keyframes pulse {
             0% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.15); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
             100% { transform: translate(-50%, -50%) scale(1); }
         }
 
-        .progress-box { width: 100%; background: #fff; border: 1.5px solid var(--maroon); border-radius: 20px; overflow: hidden; margin: 20px 0; }
-        .bar { width: 0%; height: 28px; background: linear-gradient(to right, var(--dark-pink), var(--maroon)); transition: width 0.1s linear; }
-        .breaking-bar { animation: glitch 0.15s infinite; filter: drop-shadow(0 0 8px red); }
+        .progress-box { width: 100%; background: #fff; border: 1.5px solid var(--maroon); border-radius: 20px; overflow: hidden; margin: 15px 0; }
+        .bar { width: 0%; height: 24px; background: linear-gradient(to right, var(--dark-pink), var(--maroon)); transition: width 0.1s linear; }
         
-        .typewriter { line-height: 1.5; white-space: pre-wrap; width: 100%; text-align: left; font-family: 'Poppins', sans-serif; font-size: 1.05rem; }
+        .typewriter { 
+            line-height: 1.4; white-space: pre-wrap; width: 100%; 
+            text-align: left; font-family: 'Poppins', sans-serif; 
+            font-size: 1rem; margin-bottom: 0;
+        }
         
         .reveal-img {
-            max-width: 200px; border-radius: 15px; margin: 15px auto;
-            display: block; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 180px; border-radius: 15px; margin: 15px auto;
+            display: block; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
     </style>
 </head>
@@ -118,10 +120,8 @@
 
     <div id="page1" class="container">
         <div class="text-card">
-            <div>
-                <h2>Hey Avinya,</h2>
-                <p>I have a letter for you. Please click the heart to open it.</p>
-            </div>
+            <h2>Hey Avinya,</h2>
+            <p>I have a letter for you. Click the heart to open it.</p>
             <div class="envelope-wrapper" onclick="goToPage(2)">
                 <div class="heart-seal">❤️</div>
             </div>
@@ -152,42 +152,39 @@
         </div>
         <div id="l1-content" class="text-card hidden">
             <p id="l1-text" class="typewriter"></p>
-            <div id="l1-btn-container" style="min-height: 50px;">
-                <button id="l1-btn" class="hidden" onclick="cycleL1()">Continue</button>
-            </div>
+            <button id="l1-btn" class="hidden" onclick="cycleL1()">Continue</button>
         </div>
     </div>
 
     <div id="page4" class="container hidden">
         <div id="env-l2" class="text-card" style="cursor:pointer;" onclick="startLetter2()">
-            <h2 style="color:var(--maroon)">Things I've kept hidden in me for so many days</h2>
+            <h2 style="color:var(--maroon)">Things I've kept hidden</h2>
             <div class="envelope-wrapper">
                 <div class="heart-seal">✉️</div>
             </div>
         </div>
         <div id="l2-content" class="text-card hidden">
             <p id="l2-text" class="typewriter"></p>
-            <div id="l2-btn-container" style="min-height: 50px;">
-                <button id="l2-btn" class="hidden" onclick="cycleL2()">Continue</button>
-            </div>
+            <button id="l2-btn" class="hidden" onclick="cycleL2()">Continue</button>
         </div>
     </div>
 
     <div id="page5" class="container hidden">
         <div class="text-card">
-            <div>
-                <h2>Wait... one last thing.</h2>
-                <h1 style="color:var(--maroon)">Do you want to check how much I love you?</h1>
-            </div>
+            <h2>One last thing...</h2>
+            <h1 style="color:var(--maroon)">Check how much I love you?</h1>
             <button onclick="goToPage(6)">Check Now 💖</button>
         </div>
     </div>
 
     <div id="page6" class="container hidden">
         <div class="text-card">
-            <h2>Calculating my love...</h2>
-            <div class="progress-box"><div id="fill" class="bar"></div></div>
-            <h2 id="percent">0%</h2>
+            <h2>Calculating...</h2>
+            <div id="meter-box">
+                <div class="progress-box"><div id="fill" class="bar"></div></div>
+                <h2 id="percent">0%</h2>
+            </div>
+            <p id="meter-reveal-text" class="typewriter" style="color:maroon; font-weight:bold; text-align:center;"></p>
             <button id="end-btn" class="hidden" onclick="goToPage(7)">Continue</button>
         </div>
     </div>
@@ -201,11 +198,9 @@
 
     <div id="page8" class="container hidden">
         <div class="text-card">
-            <div>
-                <h1>Thank You For Your Time <3</h1>
-                <h1 style="color:var(--maroon)">I Love You Avinya 💗</h1>
-                <p>~Dark</p>
-            </div>
+            <h1>Thank You! <3</h1>
+            <h1 style="color:var(--maroon)">I Love You Avinya 💗</h1>
+            <p>~Dark</p>
             <button onclick="location.reload()">Back to Start</button>
         </div>
     </div>
@@ -252,7 +247,6 @@
             document.getElementById('ques').classList.remove('hidden');
         }
 
-        // IMPROVED TYPEWRITER: Button strictly hidden until finish
         function typeWriter(elementId, text, btnId) {
             const element = document.getElementById(elementId);
             const btn = document.getElementById(btnId);
@@ -266,7 +260,7 @@
                     i++;
                     setTimeout(type, speed);
                 } else {
-                    btn.classList.remove('hidden'); // ONLY shows when i hits text.length
+                    btn.classList.remove('hidden');
                 }
             }
             type();
@@ -340,10 +334,8 @@
                     clearInterval(interval);
                     setTimeout(() => {
                         if(breakSound) breakSound.play();
-                        fill.classList.add('breaking-bar');
-                        fill.style.width = "200%"; 
-                        pct.innerHTML = "<span style='color:maroon; font-weight:bold;'>Sorry beautiful, but my love for you cannot be measured 😭🎀</span>";
-                        document.getElementById('end-btn').classList.remove('hidden');
+                        document.getElementById('meter-box').classList.add('hidden');
+                        typeWriter('meter-reveal-text', "Sorry beautiful, but my love for you cannot be measured 😭🎀", 'end-btn');
                     }, 600);
                 }
             }, 45);
